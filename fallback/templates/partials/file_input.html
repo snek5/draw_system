@@ -1,0 +1,5 @@
+{% if error %}<p class="error" role="alert">{{ error }}</p>{% endif %}
+<input class="input" type="file" name="file" accept=".csv" aria-label="Participant CSV file"
+       hx-post="{{ url_for('draw.upload') }}" hx-trigger="change"
+       hx-target="#file-slot" hx-encoding="multipart/form-data"
+       hx-include="this">

@@ -1,0 +1,224 @@
+/* Aspirasi 6 draw - plain CSS reproducing the old Tailwind look, so the app
+   needs no Node build and works offline on the draw machine. */
+
+:root {
+  --bibd-purple: #881861;
+  --bibd-purple-dark: #6f194f;
+  --bibd-gray: #707174;
+  --bibd-yellow: #eaca3c;
+
+  --text: #111827;
+  --field-bg: #f9fafb;
+  --field-border: var(--bibd-purple);
+  --label: #111827;
+  --card-text: var(--bibd-purple);
+
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  font-size: 20px;
+  color-scheme: light dark;
+  color: #213547;
+  background-color: #ffffff;
+  background-image: url("../img/aspirasi_6_bg.png");
+  background-size: cover;
+  min-height: 100vh;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color: rgba(255, 255, 255, 0.87);
+    background-color: #242424;
+    --field-bg: #374151;
+    --field-border: #4b5563;
+    --text: #ffffff;
+    --label: #ffffff;
+    --card-text: #ffffff;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.app {
+  margin-top: 1rem;
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+img { max-width: 100%; display: block; }
+.logo { margin-bottom: 0.5rem; }
+.logo-button {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.logo-button:disabled { cursor: default; }
+
+.field { width: 100%; margin: 0.5rem 0; }
+
+.label, .status {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+  color: var(--label);
+  text-align: center;
+}
+.status { margin-bottom: 0.5rem; overflow-wrap: anywhere; }
+
+.input {
+  display: block;
+  width: 100%;
+  padding: 0.625rem;
+  font: inherit;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--text);
+  background: var(--field-bg);
+  border: 1px solid var(--field-border);
+  border-radius: 0.5rem;
+}
+.input:focus {
+  outline: none;
+  border-color: var(--bibd-purple);
+  box-shadow: 0 0 0 1px var(--bibd-purple);
+}
+.input[type="file"] { padding: 0.5rem 1rem; cursor: pointer; margin-bottom: 0.5rem; }
+
+.options { display: flex; flex-direction: column; margin: 0.5rem 0; }
+
+.btn {
+  display: block;
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.625rem;
+  font: inherit;
+  font-size: 0.875rem;
+  color: var(--text);
+  background: var(--field-bg);
+  border: 1px solid var(--field-border);
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: 0.4s;
+}
+.btn:hover { background-color: var(--bibd-purple-dark); color: #fff; }
+
+.error {
+  margin: 0.5rem 0;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  color: #7f1d1d;
+  background: #fef2f2;
+  border: 1px solid #fca5a5;
+  border-radius: 0.5rem;
+}
+
+/* Winners */
+.results {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.winner {
+  display: block;
+  margin-bottom: 0.5rem;
+  padding: 0.375rem;
+  font-weight: 500;
+  text-align: left;
+  color: var(--card-text);
+  background: #f9fafb;
+  border: 1px solid var(--bibd-purple);
+  border-radius: 0.75rem;
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
+@media (prefers-color-scheme: dark) {
+  .winner { color: #fff; }
+}
+@media (max-width: 640px) {
+  .results { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* Checkbox design (carried over from the original App.css) */
+.checkbox { display: flex; align-items: center; }
+.checkbox label { display: inline-block; cursor: pointer; margin-left: 4px; vertical-align: middle; }
+
+@supports (-webkit-appearance: none) or (-moz-appearance: none) {
+  .checkbox input[type=checkbox] {
+    --active: #6f194f;
+    --active-inner: #fff;
+    --focus: 2px rgba(39, 94, 254, .3);
+    --border: #BBC1E1;
+    --border-hover: #275EFE;
+    --background: #fff;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 21px;
+    height: 21px;
+    outline: none;
+    display: inline-block;
+    vertical-align: top;
+    position: relative;
+    margin: 0;
+    cursor: pointer;
+    border: 1px solid var(--bc, var(--border));
+    border-radius: 6px;
+    background: var(--b, var(--background));
+    transition: background 0.3s, border-color 0.3s, box-shadow 0.2s;
+  }
+  .checkbox input[type=checkbox]::after {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 5px;
+    height: 9px;
+    border: 2px solid var(--active-inner);
+    border-top: 0;
+    border-left: 0;
+    left: 7px;
+    top: 4px;
+    opacity: var(--o, 0);
+    transform: rotate(var(--r, 20deg));
+    transition: transform var(--d-t, 0.3s) var(--d-t-e, ease), opacity var(--d-o, 0.2s);
+  }
+  .checkbox input[type=checkbox]:checked {
+    --b: var(--active);
+    --bc: var(--active);
+    --d-o: .3s;
+    --d-t: .6s;
+    --d-t-e: cubic-bezier(.2, .85, .32, 1.2);
+    --o: 1;
+    --r: 43deg;
+  }
+  .checkbox input[type=checkbox]:hover:not(:checked):not(:disabled) { --bc: var(--border-hover); }
+  .checkbox input[type=checkbox]:focus { box-shadow: 0 0 0 var(--focus); }
+}
