@@ -1,6 +1,6 @@
-# Aspirasi 6 Draw System
+# A6 Draw System
 
-A draw system for the "Aspirasi 6" campaign managed by BIBD Bank, used to select winners from a participant file according to set criteria. It is built with Flask and htmx; it was previously a Vite + React single-page app.
+A draw system for the "A6" campaign managed by a company, used to select winners from a participant file according to set criteria. It is built with Flask and htmx; it was previously a Vite + React single-page app.
 
 Given the same participant file and RNG seed, it picks **the same winners, in the same order, as the React version did**, so earlier draws can still be reproduced and audited (see [Draw compatibility](#draw-compatibility)).
 
