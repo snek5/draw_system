@@ -1,0 +1,14 @@
+.git
+.gitignore
+.venv
+venv
+**/__pycache__
+**/*.py[cod]
+.pytest_cache
+tests
+node_modules
+azure-pipelines.yml
+Dockerfile
+.dockerignore
+*.md
+*.log

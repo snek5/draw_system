@@ -40,6 +40,17 @@ Optional environment variables:
 | `FALLBACK_SECRET_KEY` | random per start | Session signing key |
 | `FALLBACK_MAX_UPLOAD_MB` | `200` | Largest participant file accepted |
 
+### With Docker
+
+```bash
+docker build -t fallback-v2 .
+docker run --rm -p 8000:8000 fallback-v2
+```
+
+Then open http://127.0.0.1:8000. With Podman, use the same commands with `podman` in place of `docker`.
+
+The image runs gunicorn with **one worker** and 8 threads. Keep it that way: the draw lives in that one process's memory, so extra workers or replicas would send requests to a process that doesn't know about the draw. Pass the environment variables above with `-e`, for example `-e FALLBACK_MAX_UPLOAD_MB=500`.
+
 ## Participant file
 
 The file is pipe-delimited, with a header row. The draw uses these columns:
