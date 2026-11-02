@@ -1,8 +1,8 @@
 {% set v = request.args %}
 {% if not staff_draw %}
 <div class="field">
-  <label class="label" for="perdana">Number of Perdana Winners:</label>
-  <input class="input" type="number" min="0" id="perdana" name="perdana" value="{{ v.get('perdana', '0') }}">
+  <label class="label" for="vip">Number of VIP Winners:</label>
+  <input class="input" type="number" min="0" id="vip" name="vip" value="{{ v.get('vip', '0') }}">
 </div>
 <div class="field">
   <label class="label" for="mass">Number of Mass Market Winners:</label>
@@ -15,7 +15,7 @@
 </div>
 {% endif %}
 {# keep the values of the hidden set when toggling back and forth #}
-{% for name in (['staff'] if not staff_draw else ['perdana', 'mass']) %}
+{% for name in (['staff'] if not staff_draw else ['vip', 'mass']) %}
 <input type="hidden" name="{{ name }}" value="{{ v.get(name, '0') }}">
 {% endfor %}
 <div class="field">

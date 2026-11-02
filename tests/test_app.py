@@ -9,7 +9,7 @@ from fallback import create_app
 from fallback.draw import hash_file, pick_staff, pick_winners
 
 CSV = "\n".join(
-    ["ACCTNO|ACNAME|PERDANA_FLAG|STAFF_FLAG|FINAL_CHANCES"]
+    ["ACCTNO|ACNAME|VIP_FLAG|STAFF_FLAG|FINAL_CHANCES"]
     + [f"{1000 + i}|Person {i}|{'Y' if i % 3 == 0 else 'N'}|{'Y' if i % 10 == 0 else 'N'}|{i % 7 + 1}"
        for i in range(300)]
 ) + "\n"
@@ -29,7 +29,7 @@ def upload(client, data=CSV.encode()):
 
 
 def setup(client, **fields):
-    form = {"seed": "abc123", "perdana": "3", "mass": "4", "staff": "0", "delay": "2"}
+    form = {"seed": "abc123", "vip": "3", "mass": "4", "staff": "0", "delay": "2"}
     form.update(fields)
     return client.post("/setup", data=form)
 
@@ -50,7 +50,7 @@ def reveal_all(client):
 def test_index_renders(client):
     page = client.get("/").get_data(as_text=True)
     assert 'hx-post="/upload"' in page
-    assert "Number of Perdana Winners:" in page
+    assert "Number of VIP Winners:" in page
     assert "htmx-2.0.4.min.js" in page
 
 
@@ -64,11 +64,11 @@ def test_upload_shows_hash_and_fills_seed(client):
 
 
 def test_staff_toggle_swaps_params_and_keeps_values(client):
-    html = client.get("/params?staff_draw=on&perdana=5&mass=6&delay=3").get_data(as_text=True)
-    assert "Number of Staff Winners:" in html and "Perdana" not in html
-    assert 'name="perdana" value="5"' in html and 'name="mass" value="6"' in html
-    html = client.get("/params?perdana=5&mass=6&staff=2").get_data(as_text=True)
-    assert "Number of Perdana Winners:" in html
+    html = client.get("/params?staff_draw=on&vip=5&mass=6&delay=3").get_data(as_text=True)
+    assert "Number of Staff Winners:" in html and "VIP" not in html
+    assert 'name="vip" value="5"' in html and 'name="mass" value="6"' in html
+    html = client.get("/params?vip=5&mass=6&staff=2").get_data(as_text=True)
+    assert "Number of VIP Winners:" in html
     assert 'name="staff" value="2"' in html
 
 
@@ -85,7 +85,7 @@ def test_public_draw_end_to_end(client):
     body = client.get("/draw/download")
     assert body.headers["Content-Disposition"] == 'attachment; filename="selected_lines.csv"'
     lines = body.get_data(as_text=True).split("\n")
-    assert lines[0] == "ACCTNO|ACNAME|PERDANA_FLAG|STAFF_FLAG|FINAL_CHANCES"
+    assert lines[0] == "ACCTNO|ACNAME|VIP_FLAG|STAFF_FLAG|FINAL_CHANCES"
     assert lines[1:-1] == [w.line for w in expected.winners]
     assert lines[-1] == f"RNG Seed = abc123 | File Hash = {hash_file(CSV.encode())}"
 
@@ -127,12 +127,12 @@ def test_missing_column_shows_message(client):
     upload(client, b"ACCTNO|ACNAME|STAFF_FLAG|FINAL_CHANCES\n1|A|N|3\n")
     setup(client)
     html = client.post("/draw/start").get_data(as_text=True)
-    assert "PERDANA_FLAG" in html
+    assert "VIP_FLAG" in html
 
 
 def test_too_many_winners_shows_message(client):
     upload(client)
-    setup(client, perdana="500")
+    setup(client, vip="500")
     html = client.post("/draw/start").get_data(as_text=True)
     assert 'class="error"' in html
 
@@ -146,8 +146,8 @@ def test_new_page_load_starts_fresh(client):
 
 
 def test_labels_are_escaped(client):
-    upload(client, b"ACCTNO|ACNAME|PERDANA_FLAG|STAFF_FLAG|FINAL_CHANCES\n"
+    upload(client, b"ACCTNO|ACNAME|VIP_FLAG|STAFF_FLAG|FINAL_CHANCES\n"
                    b"2|B|N|N|5\n1|<script>x</script>|Y|N|5\n")
-    setup(client, perdana="1", mass="0", show_name="on")
+    setup(client, vip="1", mass="0", show_name="on")
     labels, _ = reveal_all(client)
     assert labels == ["W1: &lt;script&gt;x&lt;/script&gt;\n"]

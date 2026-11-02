@@ -1,4 +1,5 @@
-// Runs the ORIGINAL React-era helpers.js (reference/helpers.js, unmodified)
+// Runs the ORIGINAL React-era helpers.js (reference/helpers.js; logic
+// unmodified, only names renamed to match the VIP_FLAG column)
 // with the browser APIs it touches stubbed, and prints what it produced.
 //
 // stdin:  JSON {"cases": [...]} - see tests/test_parity.py
@@ -61,7 +62,7 @@ function runDraw(c) {
   };
   try {
     if (c.mode === "staff") pickStaff({ ...args, staffWinners: parseInt(c.staff) });
-    else pickWinners({ ...args, perdanaWinners: parseInt(c.perdana), nonPerdanaWinners: parseInt(c.mass) });
+    else pickWinners({ ...args, vipWinners: parseInt(c.vip), nonVipWinners: parseInt(c.mass) });
   } catch (e) {
     error = String(e);
   }

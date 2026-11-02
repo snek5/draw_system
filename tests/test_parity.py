@@ -1,7 +1,8 @@
 """Parity tests: the Python draw must match the original React app exactly.
 
 The reference is the original ``helpers.js`` from the React app
-(tests/parity/reference/helpers.js, unmodified), executed in Node with the
+(tests/parity/reference/helpers.js; logic unmodified, only names renamed
+to match the VIP_FLAG column), executed in Node with the
 same seedrandom / crypto-js versions. Needs ``node`` and
 ``npm ci --prefix tests/parity``; skipped otherwise.
 """
@@ -96,7 +97,7 @@ def _chance(r: random.Random) -> str:
 
 
 def make_csv(r: random.Random) -> str:
-    cols = ["ACCTNO", "ACNAME", "PERDANA_FLAG", "STAFF_FLAG", "FINAL_CHANCES", "BRANCH"]
+    cols = ["ACCTNO", "ACNAME", "VIP_FLAG", "STAFF_FLAG", "FINAL_CHANCES", "BRANCH"]
     if r.random() < 0.5:
         r.shuffle(cols)
     if r.random() < 0.04:
@@ -109,7 +110,7 @@ def make_csv(r: random.Random) -> str:
         values = {
             "ACCTNO": f"{r.randint(10**9, 10**10 - 1)}",
             "ACNAME": r.choice(["Ali bin Abu", "Siti Nur", "Lee Wei", "Raj Kumar", "Hjh Aminah"]) + f" {i}",
-            "PERDANA_FLAG": r.choice(["Y", "N", "Y", "N", " Y ", "y"]),
+            "VIP_FLAG": r.choice(["Y", "N", "Y", "N", " Y ", "y"]),
             "STAFF_FLAG": r.choice(["N"] * 8 + ["Y", "Y", " N", "X"]),
             "FINAL_CHANCES": _chance(r) if messy else str(r.randint(1, 30)),
             "BRANCH": r.choice(["BSB", "KB", "TUT", "TEM"]),
@@ -134,7 +135,7 @@ def make_case(r: random.Random) -> dict:
         "mode": "staff" if staff else "public",
         "content": make_csv(r),
         "seed": r.choice(SEEDS + ["".join(format(r.randrange(256), "x") for _ in range(16))] * 6),
-        "perdana": count(),
+        "vip": count(),
         "mass": count(),
         "staff": count(),
         "showName": r.random() < 0.5,
@@ -149,7 +150,7 @@ def run_python(case: dict):
             result = pick_staff(case["content"], parse_int(case["staff"]), case["seed"],
                                 case["showName"], case["showCert"])
         else:
-            result = pick_winners(case["content"], parse_int(case["perdana"]),
+            result = pick_winners(case["content"], parse_int(case["vip"]),
                                   parse_int(case["mass"]), case["seed"],
                                   case["showName"], case["showCert"])
     except DrawError:

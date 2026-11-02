@@ -10,7 +10,7 @@ Given the same participant file and RNG seed, it picks **the same winners, in th
 - **Hash value**: the file's SHA-256 hash is shown on upload and recorded in the results.
 - **RNG seed**: a random seed is generated on upload; it can be replaced before the draw.
 - **Staff toggle**: switch between the public draw and the staff draw.
-- **Public draw parameters**: number of Perdana winners, number of Mass Market winners, delay between lines.
+- **Public draw parameters**: number of VIP winners, number of Mass Market winners, delay between lines.
 - **Staff draw parameters**: number of staff winners, delay between lines.
 - **Display options**: show certificate (`ACCTNO`), name (`ACNAME`), or both.
 - **Draw**: click the logo to run the draw; winners are revealed one at a time.
@@ -57,7 +57,7 @@ The file is pipe-delimited, with a header row. The draw uses these columns:
 
 | Column | Used for |
 | --- | --- |
-| `PERDANA_FLAG` | `Y` = Perdana, `N` = Mass Market (public draw) |
+| `VIP_FLAG` | `Y` = VIP, `N` = Mass Market (public draw) |
 | `STAFF_FLAG` | `N` = eligible for the public draw, `Y` = eligible for the staff draw |
 | `FINAL_CHANCES` | Weight in the public draw (staff draw is equal-chance) |
 | `ACNAME` | Name shown when "Show Name" is ticked |
@@ -76,7 +76,7 @@ fallback/
 tests/
   test_app.py    end-to-end flow through the routes
   test_parity.py the Python draw vs. the original JavaScript, run in Node
-  parity/        the original helpers.js (unmodified) and its harness
+  parity/        the original helpers.js (logic unmodified) and its harness
 ```
 
 ## Tests
@@ -96,7 +96,7 @@ The old draw ran in the browser: `seedrandom(seed)` (ARC4), a weighted pick, the
 The original weighted pick also has quirks that are **kept on purpose** so results match:
 
 - After each winner is removed, the running weights aren't recalculated, so later picks don't use the true remaining weights.
-- In the public draw, a random value that lands on an ineligible row (e.g. a Mass Market row during the Perdana picks) goes to the next eligible row after it.
+- In the public draw, a random value that lands on an ineligible row (e.g. a Mass Market row during the VIP picks) goes to the next eligible row after it.
 - If no eligible row is left at or after the random value, the draw can't continue. The old app silently showed nothing; this version shows an error. On clean files this is rare but real: roughly 1 in 200 seeds in testing.
 
 Fixing these would change which winners a given seed produces, so it should be a deliberate, separately versioned change.
