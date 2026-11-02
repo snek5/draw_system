@@ -1,0 +1,4 @@
+<span class="status">✔️ File Uploaded</span>
+<span class="status">🔒 Hashed Value: {{ file_hash }}</span>
+<span class="status">RNG Seed: <span id="seed-echo">{{ seed }}</span></span>
+{% with seed=seed, oob=True %}{% include "partials/seed_field.html" %}{% endwith %}

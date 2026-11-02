@@ -1,0 +1,10 @@
+{
+  "name": "fallback-v2-parity",
+  "private": true,
+  "type": "module",
+  "description": "Runs the original React-era helpers.js unmodified, as the reference for the Python port.",
+  "dependencies": {
+    "crypto-js": "4.2.0",
+    "seedrandom": "3.0.5"
+  }
+}

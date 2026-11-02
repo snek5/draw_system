@@ -1,0 +1,4 @@
+<div id="seed-field" class="field"{% if oob %} hx-swap-oob="true"{% endif %}>
+  <label class="label" for="seed">RNG Seed Value:</label>
+  <input class="input" type="text" id="seed" name="seed" value="{{ seed or '' }}" autocomplete="off">
+</div>

@@ -1,0 +1,2 @@
+<li hidden hx-get="{{ url_for('draw.reveal', index=next_index) }}"
+    hx-trigger="{{ 'load delay:%ds' % delay if delay else 'load' }}" hx-swap="outerHTML"></li>

@@ -1,7 +1,5 @@
-# Node.js with React
-# Build a Node.js project that uses React.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+# Flask + htmx draw app: run the test suite, including parity checks
+# against the original React-era draw code (tests/parity).
 
 trigger:
 - master
@@ -10,12 +8,21 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.12'
+  displayName: 'Use Python 3.12'
+
 - task: NodeTool@0
   inputs:
-    versionSpec: '10.x'
-  displayName: 'Install Node.js'
+    versionSpec: '20.x'
+  displayName: 'Install Node.js (parity tests only)'
 
 - script: |
-    npm install
-    npm run build
-  displayName: 'npm install and build'
+    python -m pip install --upgrade pip
+    pip install -r requirements-dev.txt
+    npm install --prefix tests/parity --no-audit --no-fund
+  displayName: 'Install dependencies'
+
+- script: python -m pytest -q
+  displayName: 'Run tests'

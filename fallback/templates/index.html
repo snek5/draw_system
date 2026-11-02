@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="app" id="app">
+  <img class="logo" src="{{ url_for('static', filename='img/aspirasi_6_logo.png') }}" alt="Aspirasi 6">
+
+  <form id="setup" hx-post="{{ url_for('draw.setup') }}" hx-target="#app" hx-swap="innerHTML">
+    <div id="file-slot">{% include "partials/file_input.html" %}</div>
+
+    {% include "partials/seed_field.html" %}
+
+    <div class="options" id="draw-options">
+      <div class="checkbox">
+        <input type="checkbox" id="staff_draw" name="staff_draw"
+               hx-get="{{ url_for('draw.params') }}" hx-trigger="change"
+               hx-target="#params" hx-include="#params, #staff_draw">
+        <label for="staff_draw">Staff Draw</label>
+      </div>
+      <div class="checkbox">
+        <input type="checkbox" id="show_cert" name="show_cert">
+        <label for="show_cert">Show Certificate</label>
+      </div>
+      <div class="checkbox">
+        <input type="checkbox" id="show_name" name="show_name">
+        <label for="show_name">Show Name</label>
+      </div>
+    </div>
+
+    <div id="params">{% include "partials/params.html" %}</div>
+  </form>
+</div>
+{% endblock %}
