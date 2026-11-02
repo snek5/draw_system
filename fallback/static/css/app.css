@@ -20,7 +20,7 @@
   color-scheme: light dark;
   color: #213547;
   background-color: #ffffff;
-  background-image: url("../img/aspirasi_6_bg.png");
+  background-image: url("../img/a6_bg.png");
   background-size: cover;
   min-height: 100vh;
   font-synthesis: none;
@@ -67,7 +67,7 @@ body {
   align-items: center;
 }
 
-img { max-width: 100%; display: block; }
+img { max-width: 100%; height: auto; display: block; }
 .logo { margin-bottom: 0.5rem; }
 .logo-button {
   margin-top: 1rem;

@@ -73,6 +73,8 @@ fallback/
   state.py       in-memory per-browser draw state
   templates/     pages and htmx partials
   static/        CSS, images, vendored htmx 2.0.4
+tools/
+  make_images.py regenerates the logo, icon and background in fallback/static/img
 tests/
   test_app.py    end-to-end flow through the routes
   test_parity.py the Python draw vs. the original JavaScript, run in Node
