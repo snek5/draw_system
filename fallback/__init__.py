@@ -1,4 +1,4 @@
-"""Aspirasi 6 draw system - Flask + htmx."""
+"""A6 Draw System - Flask + htmx."""
 
 from __future__ import annotations
 

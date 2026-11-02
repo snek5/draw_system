@@ -1,4 +1,4 @@
-# Aspirasi 6 draw - Flask + htmx
+# A6 Draw System - Flask + htmx
 #
 #   docker build -t fallback-v2 .
 #   docker run --rm -p 8000:8000 fallback-v2

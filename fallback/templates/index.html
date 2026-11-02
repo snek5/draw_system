@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="app" id="app">
-  <img class="logo" src="{{ url_for('static', filename='img/aspirasi_6_logo.png') }}" alt="Aspirasi 6">
+  <img class="logo" src="{{ url_for('static', filename='img/a6_logo.png') }}" alt="A6 Draw System" width="227" height="104">
 
   <form id="setup" hx-post="{{ url_for('draw.setup') }}" hx-target="#app" hx-swap="innerHTML">
     <div id="file-slot">{% include "partials/file_input.html" %}</div>
