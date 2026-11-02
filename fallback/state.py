@@ -25,7 +25,7 @@ class Session:
     staff_draw: bool = False
     show_name: bool = False
     show_cert: bool = False
-    perdana: float = 0.0
+    vip: float = 0.0
     mass: float = 0.0
     staff: float = 0.0
     delay: float = 0.0

@@ -3,8 +3,8 @@ import cryptoJs from "crypto-js";
 
 const pickWinners = ({
     fileInput,
-    perdanaWinners,
-    nonPerdanaWinners,
+    vipWinners,
+    nonVipWinners,
     lineDelay,
     setRandomLine,
     setPickedLines,
@@ -32,12 +32,12 @@ const pickWinners = ({
 
         const getRandomIndex = (max) => Math.floor(rng() * max);
 
-        const perdanaIndex = headers.indexOf('PERDANA_FLAG');
+        const vipIndex = headers.indexOf('VIP_FLAG');
         const chanceIndex = headers.indexOf('FINAL_CHANCES');
         const staffFlagIndex = headers.indexOf('STAFF_FLAG');
 
-        if (perdanaIndex === -1) {
-            alert('CSV file is missing the "PERDANA_FLAG" column.');
+        if (vipIndex === -1) {
+            alert('CSV file is missing the "VIP_FLAG" column.');
             return;
         }
 
@@ -68,11 +68,11 @@ const pickWinners = ({
 
         const randomLines = [];
 
-        for (let i = 0; i < perdanaWinners; i++) {
+        for (let i = 0; i < vipWinners; i++) {
             let randomIndex, randomLineData;
             const randomValue = rng() * totalCumulativeSum;
             randomIndex = cumulativeChances.findIndex(
-                (cumulativeChances, index) => cumulativeChances >= randomValue && data[index].split('|')[perdanaIndex].trim() === 'Y' && data[index].split('|')[staffFlagIndex].trim() === 'N'
+                (cumulativeChances, index) => cumulativeChances >= randomValue && data[index].split('|')[vipIndex].trim() === 'Y' && data[index].split('|')[staffFlagIndex].trim() === 'N'
             );
             randomLineData = data[randomIndex].split('|');
             randomLines.push(data[randomIndex]);
@@ -81,11 +81,11 @@ const pickWinners = ({
             cumulativeChances.splice(randomIndex, 1); // Remove the picked line from the cumulativeChances array
         }
 
-        for (let i = 0; i < nonPerdanaWinners; i++) {
+        for (let i = 0; i < nonVipWinners; i++) {
             let randomIndex, randomLineData;
             const randomValue = rng() * cumulativeSum; // Use the updated cumulativeSum
             randomIndex = cumulativeChances.findIndex(
-                (cumulativeChances, index) => cumulativeChances >= randomValue && data[index].split('|')[perdanaIndex].trim() === 'N' && data[index].split('|')[staffFlagIndex].trim() === 'N'
+                (cumulativeChances, index) => cumulativeChances >= randomValue && data[index].split('|')[vipIndex].trim() === 'N' && data[index].split('|')[staffFlagIndex].trim() === 'N'
             );
             randomLineData = data[randomIndex].split('|');
             randomLines.push(data[randomIndex]);

@@ -61,7 +61,7 @@ def setup():
     state.staff_draw = _flag("staff_draw")
     state.show_cert = _flag("show_cert")
     state.show_name = _flag("show_name")
-    state.perdana = parse_int(form.get("perdana", ""))
+    state.vip = parse_int(form.get("vip", ""))
     state.mass = parse_int(form.get("mass", ""))
     state.staff = parse_int(form.get("staff", ""))
     state.delay = parse_int(form.get("delay", ""))
@@ -86,7 +86,7 @@ def start():
             result = pick_staff(content, state.staff, state.seed,
                                 state.show_name, state.show_cert)
         else:
-            result = pick_winners(content, state.perdana, state.mass, state.seed,
+            result = pick_winners(content, state.vip, state.mass, state.seed,
                                   state.show_name, state.show_cert)
     except DrawError as exc:
         return render_template("partials/draw_error.html", message=str(exc))

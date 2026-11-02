@@ -120,22 +120,22 @@ def _labels(rng_lines, headers, show_name, show_cert, default_is_name) -> List[W
     return winners
 
 
-def pick_winners(content: str, perdana_winners, mass_winners, seed: str,
+def pick_winners(content: str, vip_winners, mass_winners, seed: str,
                  show_name: bool, show_cert: bool) -> DrawResult:
-    """Public draw: Perdana winners first, then Mass Market, then shuffled.
-    ``perdana_winners``/``mass_winners`` are ``parse_int`` results."""
+    """Public draw: VIP winners first, then Mass Market, then shuffled.
+    ``vip_winners``/``mass_winners`` are ``parse_int`` results."""
     lines = content.split("\n")
     headers = [js_trim(h) for h in lines[0].split("|")]
     data = lines[1:]
 
     rng = SeedRandom(seed)
 
-    perdana_index = headers.index("PERDANA_FLAG") if "PERDANA_FLAG" in headers else -1
+    vip_index = headers.index("VIP_FLAG") if "VIP_FLAG" in headers else -1
     chance_index = headers.index("FINAL_CHANCES") if "FINAL_CHANCES" in headers else -1
     staff_index = headers.index("STAFF_FLAG") if "STAFF_FLAG" in headers else -1
 
-    if perdana_index == -1:
-        raise DrawError('CSV file is missing the "PERDANA_FLAG" column.')
+    if vip_index == -1:
+        raise DrawError('CSV file is missing the "VIP_FLAG" column.')
     if chance_index == -1:
         raise DrawError('CSV file is missing the "FINAL_CHANCES" column.')
     if staff_index == -1:
@@ -168,10 +168,10 @@ def pick_winners(content: str, perdana_winners, mass_winners, seed: str,
             del cumulative[index]
 
         def eligible(flag):
-            return lambda line: (_field(line, perdana_index) == flag
+            return lambda line: (_field(line, vip_index) == flag
                                  and _field(line, staff_index) == "N")
 
-        for _ in range(_count(perdana_winners)):
+        for _ in range(_count(vip_winners)):
             take(_pick(data, cumulative, rng() * total, eligible("Y")))
         for _ in range(_count(mass_winners)):
             take(_pick(data, cumulative, rng() * cumulative_sum, eligible("N")))
